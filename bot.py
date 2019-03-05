@@ -12,7 +12,7 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+    bot.send_message(message.chat.id, 'Щоб почати тестування, оберіть команду /test')
 
 @bot.message_handler(commands=['test'])
 def game(message):
