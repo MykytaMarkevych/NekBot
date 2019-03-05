@@ -36,7 +36,7 @@ def check_answer(message):
             bot.send_message(message.chat.id, "Ні, правильна відповідь %s" %answer, reply_markup=keyboard_hider)
         utils.finish_user_game(message.chat.id)            
         
-@server.route('/' + TOKEN, methods=['POST'])
+@server.route('/' + token, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
@@ -45,7 +45,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://enigmatic-river-40567.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://enigmatic-river-40567.herokuapp.com/' + token)
     return "!", 200
 
 
