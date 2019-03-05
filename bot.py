@@ -20,11 +20,6 @@ def webhook():
     bot.remove_webhook()
     bot.set_webhook(url='https://enigmatic-river-40567.herokuapp.com/' + token)
     return "?", 200
-
-if __name__ == '__main__':
-    server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
-    utils.count_rows()
-    random.seed()
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -47,11 +42,12 @@ def check_answer(message):
     else:
         keyboard_hider = telebot.types.ReplyKeyboardRemove()
         if message.text == answer:
-            bot.send_message(message.chat.id, "Так!", reply_markup=keyboard_hider)
+            bot.send_message(message.chat.id, "Так! Далі - /test", reply_markup=keyboard_hider)
         else:
-            bot.send_message(message.chat.id, "Ні, правильна відповідь %s" %answer, reply_markup=keyboard_hider)
+            bot.send_message(message.chat.id, "Ні, правильна відповідь: %s. Далі - /test" %answer, reply_markup=keyboard_hider)
         utils.finish_user_game(message.chat.id)            
         
-
-
-
+if __name__ == '__main__':
+    server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
+    utils.count_rows()
+    random.seed()
