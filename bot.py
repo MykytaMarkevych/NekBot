@@ -11,8 +11,8 @@ bot = telebot.TeleBot(token)
 server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
-def handle_start_help(message):
-    bot.send_message(message.chat.id, 'Щоб почати тестування, оберіть команду /test')
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
 
 @bot.message_handler(commands=['test'])
 def game(message):
@@ -51,6 +51,7 @@ def webhook():
 
 
 if __name__ == '__main__':
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
     utils.count_rows()
     random.seed()
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    
