@@ -37,4 +37,11 @@ def handle_start_help(message):
 if __name__ == '__main__':
     utils.count_rows()
     random.seed()
-    bot.polling(none_stop=True)
+    while True:
+    try:
+        bot.polling(none_stop=True)
+
+    except Exception as e:
+        print(e)  # или просто print(e) если у вас логгера нет,
+        # или import traceback; traceback.print_exc() для печати полной инфы
+        time.sleep(15)
