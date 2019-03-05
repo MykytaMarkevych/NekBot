@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import shelve
-from SQlighter import SQLighter
-from config import shelve_name, database_name
+from SQLighter import SQLighter
+from config import database_name, shelve_name
 from random import shuffle
+import telebot
 
 def count_rows():
     db = SQLighter(database_name)
@@ -25,15 +26,15 @@ def finish_user_game(chat_id):
         del storage[str(chat_id)]
 
 def get_answer_for_user(chat_id):
-    with shelve.open(shalve_name) as storage:
+    with shelve.open(shelve_name) as storage:
         try:
             answer = storage[str(chat_id)]
             return answer
         except KeyError:
             return None
 
-def generate_markup(right_answer, wrong_answer):
-    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+def generate_markup(right_answer, wrong_answers):
+    markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     all_answers = '{},{}'.format(right_answer, wrong_answers)
     list_items = []
     for item in all_answers.split(','):
