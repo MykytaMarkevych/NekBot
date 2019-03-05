@@ -4,8 +4,15 @@ import telebot
 import utils
 from SQLighter import SQLighter
 import random
+import os
+from flask import Flask, request
 
 bot = telebot.TeleBot(token)
+server = Flask(__name__)
+
+@bot.message_handler(commands=['start'])
+def handle_start_help(message):
+    bot.send_message(message.chat.id, 'Щоб почати тестування, оберіть команду /test')
 
 @bot.message_handler(commands=['test'])
 def game(message):
@@ -29,19 +36,21 @@ def check_answer(message):
             bot.send_message(message.chat.id, "Ні, правильна відповідь %s" %answer, reply_markup=keyboard_hider)
         utils.finish_user_game(message.chat.id)            
         
-@bot.message_handler(commands=['start','help'])
-def handle_start_help(message):
-    pass
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://enigmatic-river-40567.herokuapp.com/' + TOKEN)
+    return "!", 200
+
 
 
 if __name__ == '__main__':
     utils.count_rows()
     random.seed()
-    while True:
-    try:
-        bot.polling(none_stop=True)
-
-    except Exception as e:
-        print(e)  # или просто print(e) если у вас логгера нет,
-        # или import traceback; traceback.print_exc() для печати полной инфы
-        time.sleep(15)
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
