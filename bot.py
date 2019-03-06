@@ -6,6 +6,7 @@ from SQLighter import SQLighter
 import random
 import os
 from flask import Flask, request
+import datetime
 
 bot = telebot.TeleBot(token)
 server = Flask(__name__)
@@ -48,14 +49,16 @@ def check_answer(message):
             bot.send_message(message.chat.id, "Так! Далі - /test", reply_markup=keyboard_hider)
         else:
             bot.send_message(message.chat.id, "Ні, правильна відповідь: %s. Далі - /test" %answer, reply_markup=keyboard_hider)
-        date_answer = message.date
-        utils.finish_user_game(message.chat.id)            
-def remind(message):
-    now = datetime.datetime.now()
-    if date_answer != now:
-        bot.send_message(message.chat.id, bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
-        
+        last_day = message.date
+        utils.finish_user_game(message.chat.id)
+            
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
     utils.count_rows()
     random.seed()
+    now = datetime.datetime.now()
+    date = now.day
+    hour = now.hour
+    if date != last_day and 15 <= hour <= 23:
+        bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
+    
