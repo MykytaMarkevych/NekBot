@@ -49,7 +49,6 @@ def check_answer(message):
             bot.send_message(message.chat.id, "Так! Далі - /test", reply_markup=keyboard_hider)
         else:
             bot.send_message(message.chat.id, "Ні, правильна відповідь: %s. Далі - /test" %answer, reply_markup=keyboard_hider)
-        last_day = message.date
         utils.finish_user_game(message.chat.id)
             
 if __name__ == '__main__':
@@ -59,6 +58,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     date = now.day
     hour = now.hour
+    last_day = message.now.day
     if date != last_day and 15 <= hour <= 23:
         bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
     
