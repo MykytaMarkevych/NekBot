@@ -6,7 +6,6 @@ from SQLighter import SQLighter
 import random
 import os
 from flask import Flask, request
-import datetime
 
 bot = telebot.TeleBot(token)
 server = Flask(__name__)
