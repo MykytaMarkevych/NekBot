@@ -32,7 +32,6 @@ def game(message):
     db_worker = SQLighter(database_name)
     row = db_worker.select_single(random.randint(1, utils.get_rows_count()))
     markup = utils.generate_markup(row[2], row[3])
-    bot.send_chat_action(message.chat.id, typing)
     bot.send_message(message.chat.id, row[1], reply_markup=markup)
     utils.set_user_game(message.chat.id, row[2])
     db_worker.close()
@@ -54,5 +53,6 @@ if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
     utils.count_rows()
     random.seed()
+    
     
     
