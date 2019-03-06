@@ -55,10 +55,5 @@ if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
     utils.count_rows()
     random.seed()
-    now = datetime.datetime.now()
-    date = now.day
-    hour = now.hour
-    last_day = message.now.day
-    if date != last_day and 15 <= hour <= 23:
-        bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
+    
     
