@@ -23,13 +23,16 @@ def webhook():
     
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_message(message.chat.id, 'Щоб почати тестування, оберіть команду /test')
+    user_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    user_markup.row('Почати підготовку')
+    bot.send_message(message.chat.id, 'Щоб побачити наступне питання, оберіть команду /test')
 
 @bot.message_handler(commands=['test'])
 def game(message):
     db_worker = SQLighter(database_name)
     row = db_worker.select_single(random.randint(1, utils.get_rows_count()))
     markup = utils.generate_markup(row[2], row[3])
+    bot.send_chat_action(message.chat.id, typing)
     bot.send_message(message.chat.id, row[1], reply_markup=markup)
     utils.set_user_game(message.chat.id, row[2])
     db_worker.close()
@@ -38,14 +41,19 @@ def game(message):
 def check_answer(message):
     answer = utils.get_answer_for_user(message.chat.id)
     if not answer:
-        bot.send_message(message.chat.id, 'Щоб почати тестування, оберіть команду /test')
+        bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
     else:
         keyboard_hider = telebot.types.ReplyKeyboardRemove()
         if message.text == answer:
             bot.send_message(message.chat.id, "Так! Далі - /test", reply_markup=keyboard_hider)
         else:
             bot.send_message(message.chat.id, "Ні, правильна відповідь: %s. Далі - /test" %answer, reply_markup=keyboard_hider)
+        date_answer = message.date
         utils.finish_user_game(message.chat.id)            
+def remind(message):
+    now = datetime.datetime.now()
+    if date_answer != now:
+        bot.send_message(message.chat.id, bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
         
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
