@@ -56,8 +56,9 @@ if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
     utils.count_rows()
     random.seed()
-    if now.day != mes_date.day:
-        bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
+    while true:
+        if now.day != mes_date.day and 15 <= now.hour:
+            bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
         
     
     
