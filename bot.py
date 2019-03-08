@@ -6,11 +6,12 @@ from SQLighter import SQLighter
 import random
 import os
 from flask import Flask, request
-import datetime
 
 bot = telebot.TeleBot(token)
 server = Flask(__name__)
 now = datetime.datetime.now
+
+
 
 @server.route('/' + token, methods=['POST'])
 def getMessage():
@@ -28,6 +29,9 @@ def start(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     user_markup.row('Почати підготовку')
     bot.send_message(message.chat.id, 'Щоб побачити наступне питання, оберіть команду /test')
+def remainder():
+    if now.hour == 18 and now.minute == 0 :
+        bot.send_message(message.chat.id, 'Щоб побачити наступне питання, оберіть команду /test')
 
 @bot.message_handler(commands=['test'])
 def game(message):
@@ -41,7 +45,6 @@ def game(message):
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def check_answer(message):
     answer = utils.get_answer_for_user(message.chat.id)
-    mes_date = message.date
     if not answer:
         bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
     else:
@@ -56,10 +59,6 @@ if __name__ == '__main__':
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
     utils.count_rows()
     random.seed()
-    while true:
-        if now.day != mes_date.day and 15 <= now.hour:
-            bot.send_message(message.chat.id, 'Щоб почати наступне питання, оберіть команду /test')
-        
-    
+       
     
     
