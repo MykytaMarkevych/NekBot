@@ -41,8 +41,7 @@ def remainder():
 @bot.message_handler(commands=['test'])
 def game(message):
     db_worker = SQLighter(database_name)
-    b = utils.get_rows_count()
-    c = randomrow(b)
+    c = randomrow(utils.get_rows_count())
     row = db_worker.select_single(c.rand)
     markup = utils.generate_markup(row[2], row[3])
     bot.send_message(message.chat.id, row[1], reply_markup=markup)
