@@ -42,7 +42,7 @@ def remainder():
 def game(message):
     db_worker = SQLighter(database_name)
     c = randomrow(utils.get_rows_count())
-    row = db_worker.select_single(c.rand)
+    row = db_worker.select_single(random.randint(1,201)) #еще один
     markup = utils.generate_markup(row[2], row[3])
     bot.send_message(message.chat.id, row[1], reply_markup=markup)
     utils.set_user_game(message.chat.id, row[2])
