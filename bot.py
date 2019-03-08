@@ -12,7 +12,11 @@ bot = telebot.TeleBot(token)
 server = Flask(__name__)
 now = datetime.datetime.now
 
-
+class randomrow()
+    def __init__(self,rownum):
+        self.rownum = rownum
+    def rand(self)
+        return random.randint(1,self.rownun)
 
 @server.route('/' + token, methods=['POST'])
 def getMessage():
@@ -38,7 +42,7 @@ def remainder():
 def game(message):
     db_worker = SQLighter(database_name)
     b = utils.get_rows_count()
-    row = db_worker.select_single(random.randint(1, b))
+    row = db_worker.select_single(randomrow.rand(b))
     markup = utils.generate_markup(row[2], row[3])
     bot.send_message(message.chat.id, row[1], reply_markup=markup)
     utils.set_user_game(message.chat.id, row[2])
