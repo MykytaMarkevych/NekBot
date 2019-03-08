@@ -15,7 +15,7 @@ now = datetime.datetime.now
 class randomrow:
     def __init__(self,rownum):
         self.rownum = rownum
-    def rand(self)
+    def rand(self):
         return random.randint(1,self.rownun)
 
 @server.route('/' + token, methods=['POST'])
