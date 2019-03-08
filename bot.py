@@ -12,7 +12,7 @@ bot = telebot.TeleBot(token)
 server = Flask(__name__)
 now = datetime.datetime.now
 
- class randomrow:
+class randomrow:
     def __init__(self,rownum):
         self.rownum = rownum
     def rand(self):
