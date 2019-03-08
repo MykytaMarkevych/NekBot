@@ -3,7 +3,7 @@
 import shelve
 from SQLighter import SQLighter
 from config import database_name, shelve_name
-import random
+from random import shuffle
 import telebot
 
 def count_rows():
